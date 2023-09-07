@@ -1,15 +1,20 @@
 <%- include('partials/header'); -%>
 
-<header>
-  <div class="smoothie">
-    <img src="/smoothie.png" alt="">
-  </div>
-  <div class="headings">
-    <h2>Smoothie Recipes</h2>
-    <h3>By Ninjas For Ninjas</h3>
-    <a href="/smoothies" class="btn">View Recipes</a>
-  </div>
-</header>
+<ul class="user-list">
+  <% if(users && users.length) { %>
+    <% users.forEach(user=> { %>
+      <li class="user-item">
+        <a href="/userprofile/username/<%= user.username %>" class="user-link">
+          <img src="<%= user.userpic %>" alt="<%= user.username %>'s picture" class="user-avatar">
+          (@<%= user.username %>)
+        </a>
+      </li>
+    <% }) %>
+  <% } else { %>
+      <p class="no-users-message">No users found</p>
+  <% } %>
+</ul>
 
 
-<%- include('partials/footer'); -%>
+
+  <%- include('partials/footer'); -%>

@@ -1,0 +1,88 @@
+<%- include('partials/header'); -%>
+
+    <div class="profile-container">
+        <div class="profile-pic">
+            <img src="<%= user.userpic %>" alt="User's Name" id="profilePic">
+
+            <div id="updatePicModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn">&times;</span>
+                    <form action="/change-pic" method="post">
+                        <input type="url" name="newProfilePicUrl" placeholder="Enter new image URL" required>
+                        <button type="submit">Update Picture</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="user-info">
+            <h2>
+                <%= user.firstName %>
+                    <%= user.lastName %>
+            </h2>
+            <h3>@<%= user.username %>
+            </h3>
+            <p>Email: <%= user.email %>
+            </p>
+            <p>User since: <%= user.joinDate.getFullYear() %>
+            </p>
+            <p>User id: <%= user._id %>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal and other elements
+        var modal = document.getElementById('updatePicModal');
+        var img = document.getElementById('profilePic');
+        var span = document.getElementsByClassName("close-btn")[0];
+        var input = document.querySelector("input[name='newProfilePicUrl']");
+        var btn = document.querySelector("form button");
+
+        // When the image is clicked, open the modal
+        img.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the close button (x) is clicked, close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When anywhere outside of the modal is clicked, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        btn.addEventListener("click", function (e) {
+            e.preventDefault(); // This prevents the form's default behavior
+
+            const newImageUrl = input.value;
+            if (newImageUrl) {
+                // Send the new URL to the server to update the database
+                fetch('/change-pic', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ newImageUrl: newImageUrl }),  // Use the same property name as the backend expects
+                    credentials: 'include'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update the profile picture src
+                            img.src = newImageUrl;
+                            modal.style.display = "none";
+                        } else {
+                            // Handle error
+                            alert('Error updating the profile picture.');
+                        }
+                    });
+            }
+        });
+    </script>
+
+
+    <%- include('partials/footer'); -%>

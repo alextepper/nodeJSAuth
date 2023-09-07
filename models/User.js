@@ -29,6 +29,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please enter a Password'],
         minlength: [6, 'Minimum Password length is 6 characters']
+    },
+    userpic: {
+        type: String,
+        default: 'https://i0.wp.com/www.stignatius.co.uk/wp-content/uploads/2020/10/default-user-icon.jpg?fit=415%2C415&ssl=1' // Replace with your default pic path or URL
+    },
+    joinDate: {
+        type: Date,
+        default: Date.now
     }
 });
 
@@ -55,6 +63,10 @@ userSchema.statics.login = async function(email, password) {
     } 
     throw Error('Incorrect email')
 }
+
+
+userSchema.index({ username: 'text' });
+
 
 const User = mongoose.model('user', userSchema)
 
