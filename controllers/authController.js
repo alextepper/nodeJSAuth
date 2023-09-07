@@ -6,6 +6,21 @@ const handleErrors = (err) => {
     console.log(err.message, err.code);
     let errors = { email: '', password: '' };
 
+    if (err.message.includes('Please enter a Username')) {
+        errors.username = 'Please enter a Username'
+        return errors
+    }
+
+    if (err.message.includes('Please enter a Last Name')) {
+        errors.lastname = 'Please enter your Last Name'
+        return errors
+    }
+
+    if (err.message.includes('Please enter a First Name')) {
+        errors.firstname = 'Please enter your First Name'
+        return errors
+    }
+
     if (err.message.includes('Incorrect')) {
         errors.email = 'Wrong Email or Password'
         errors.password = 'Wrong Email or Password'
@@ -47,10 +62,10 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.signup_post = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, firstName, lastName, username } = req.body;
 
     try {
-        const user = await User.create({ email, password });
+        const user = await User.create({ email, password, firstName, lastName, username });
         const token = createToken(user._id);
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 3 })
         res.status(201).json({ user: user._id });
