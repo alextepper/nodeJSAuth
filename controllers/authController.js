@@ -6,35 +6,26 @@ const handleErrors = (err) => {
     console.log(err.message, err.code);
     let errors = { email: '', password: '' };
 
-    if (err.message.includes('Please enter a Username')) {
-        errors.username = 'Please enter a Username'
-        return errors
-    }
 
-    if (err.message.includes('Please enter a Last Name')) {
-        errors.lastname = 'Please enter your Last Name'
-        return errors
-    }
-
-    if (err.message.includes('Please enter a First Name')) {
-        errors.firstname = 'Please enter your First Name'
-        return errors
+    if (err.message.includes('Please enter a valid email')) {
+        errors.email = 'Please enter a valid email'
     }
 
     if (err.message.includes('Incorrect')) {
         errors.email = 'Wrong Email or Password'
         errors.password = 'Wrong Email or Password'
-        return errors
     }
 
-    if (err.code == 11000) {
-        errors.email = 'That Email is already registered'
-        return errors
+    if (err.code == 11000 && err.message.includes('username')) {
+        errors.username = 'That username is already taken'
+    }
+
+    if (err.code == 11000 && err.message.includes('email')) {
+        errors.email = 'That Email is already taken'
     }
 
     if (err.message.includes(' Minimum Password length')) {
         errors.password = 'The password is less than 6 characters'
-        return errors
     }
 
     if (err.message.includes('user validation failed')) {
@@ -42,6 +33,7 @@ const handleErrors = (err) => {
             errors[properties.path] = properties.message
         })
     }
+    return errors
 
 }
 

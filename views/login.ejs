@@ -8,13 +8,30 @@
         <label for="password">Password</label>
         <input type="password" name="password" required />
         <div class="password error"></div>
-        <button>Login</button>
+        <button class="submitButton" disabled>Login</button>
     </form>
 
     <script>
         const form = document.querySelector('form');
         const emailError = document.querySelector('.email.error');
         const passwordError = document.querySelector('.password.error');
+        const inputs = form.querySelectorAll('input');
+        const submitButton = form.querySelector('button');
+
+        function checkInputsFilled() {
+            for (let input of inputs) {
+                if (!input.value.trim()) {  // Check if any input is empty or just whitespace
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                submitButton.disabled = !checkInputsFilled();
+            });
+        });
 
 
         form.addEventListener('submit', async (e) => {

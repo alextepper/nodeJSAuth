@@ -240,6 +240,27 @@ footer {
   cursor: pointer;
 }
 
+.submitButton[disabled] {
+  background-color: #e0e0e0; 
+  color: #a0a0a0;           
+  cursor: not-allowed;      
+  border: 1px solid #c0c0c0;
+}
+
+.submitButton {
+  background-color: #3498db; 
+  color: white;           
+  cursor: pointer;        
+  border: none;
+  padding: 10px 20px;      
+  border-radius: 5px;      
+  transition: background-color 0.3s; 
+}
+
+.submitButton:hover {
+  background-color: #2980b9; 
+}
+
 
 /* Styles of HomeVew userList */
 body {
@@ -280,14 +301,15 @@ body {
 }
 
 .user-avatar {
-  width: 40px; /* Or any desired size */
+  width: 40px; 
   height: 40px;
-  border-radius: 50%; /* This makes the image appear as a circle */
-  margin-right: 10px; /* Optional: Space between the image and the username */
-  vertical-align: middle; /* Aligns the image vertically in line with the text */
+  border-radius: 50%;
+  margin-right: 10px; 
+  vertical-align: middle;
 }
 
 .user-link {
-  display: flex; /* This ensures the image and the text are aligned next to each other */
-  align-items: center; /* Aligns items vertically in the center */
+  display: flex; 
+  align-items: center;
 }
+
